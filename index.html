@@ -1,0 +1,412 @@
+<!-- 
+G2303185D
+Wang Xiao
+https://github.com/Amanda-WangXiao/Swap-Page-Demo.git 
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sc6111 Assignment1</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 sidebar">
+                <div class="sidebar-header">
+                    <span>Portfolio</span>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="bi bi-grid"></i> Overview</a></li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" id="moveCrLink"><i class="bi bi-arrow-left-right"></i> Move cr... <i class="bi bi-chevron-right float-end"></i></a>
+                    </li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="bi bi-coin"></i> Tokens</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="bi bi-image"></i> NFTs</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="bi bi-controller"></i> Games</a></li>
+                </ul>
+            </div>
+            <div class="col-md-9 main-content">
+                <div id="moveCrSubmenu" class="submenu">
+                    <a href="#" class="submenu-item"><span class="icon">+</span> Buy</a>
+                    <a href="#" class="submenu-item"><span class="icon">-</span> Sell</a>
+                    <a href="#" class="submenu-item"><span class="icon">↻</span> Swap</a>
+                    <a href="#" class="submenu-item"><span class="icon">↗</span> Send & R...</a>
+                    <a href="#" class="submenu-item"><span class="icon">⤭</span> Bridge</a>
+                    <a href="#" class="submenu-item"><span class="icon">☘</span> Stake</a>
+                </div>
+                <nav class="navbar navbar-expand-lg">
+                    <div class="container-fluid">
+                        <a class="navbar-brand text-white" href="#">Swap</a>
+                        <div class="d-flex align-items-center">
+
+                            <div class="mb-3 token-search-container">
+                                <input class="form-control" type="search" id="tokenSearch" placeholder="Search for a token..." aria-label="Search">
+                                <div class="token-search-results" id="tokenSearchResults" style="display: none;"></div>
+                            </div>
+
+                            <div class="mb-3 collapsible-container">
+                                <button class="btn btn-link text-white w-100" type="button" data-bs-toggle="collapse" data-bs-target="#gasOptions" aria-expanded="false" aria-controls="gasOptions">
+                                    Gas
+                                </button>
+                                <div class="collapse collapsible-content" id="gasOptions">
+                                    <div class="card card-body bg-dark">
+                                        <span class="badge bg-primary">Real-time gas prices 1559</span>
+                                        <p class="text-white text-small mb-3">Base fee: 1.16 GWEI</p>
+                                        <p class="text-white text-small mb-3">Priority fee</p>
+                                        <p class="text-white text-small mb-3">Fast: 2.00 GWEI</p>
+                                        <p class="text-white text-small mb-3">Average: 0.44 GWEI</p>
+                                        <p class="text-white text-small mb-3">Safe: 0.00 GWEI</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3 collapsible-container">
+                                <button class="btn btn-link text-white w-100" type="button" data-bs-toggle="collapse" data-bs-target="#notificationOptions" aria-expanded="false" aria-controls="notificationOptions">
+                                    Notifications
+                                </button>
+                                <div class="collapse collapsible-content" id="notificationOptions">
+                                    <div class="card card-body bg-dark">
+                                        <i class="bi bi-bell">Find your favorite web3 game through ournew games directory.</i>
+                                        <i class="bi bi-bell">You can now see your token balances onany active accounts you have on Binanceand Coinbase Exchange.</i>
+                                        <i class="bi bi-bell">Check your airdrop eligibility and seetrending NFT drops. Head over to theExplore tab to get started.</i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button id="connectWallet" class="btn btn-primary">Connect wallet</button>
+                        </div>
+                    </div>
+                </nav>
+                <div class="swap-container">
+                    <div class="network-selector mb-3">
+                        <div id="walletAddressContainer" style="display: none;">
+                            <button class="btn btn-secondary dropdown-toggle w-100 text-start mb-2" type="button" id="walletAddressDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                              <span id="walletAddressShort"></span>
+                            </button>
+                            <ul class="dropdown-menu w-100" aria-labelledby="walletAddressDropdown">
+                              <li><a class="dropdown-item" href="#" id="fullWalletAddress"></a></li>
+                              <li><a class="dropdown-item" href="#" id="disconnectWallet">Manage in Accounts Settings</a></li>
+                            </ul>
+                          </div>
+                        <button class="btn btn-secondary dropdown-toggle w-100 text-start" type="button" id="networkDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                             Ethereum
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="networkDropdown">
+                            <li><a class="dropdown-item" href="#">Ethereum</a></li>
+                            <li><a class="dropdown-item" href="#">Optimism</a></li>
+                            <li><a class="dropdown-item" href="#">BNB Chain</a></li>
+                            <li><a class="dropdown-item" href="#">Polygon</a></li>
+                            <li><a class="dropdown-item" href="#">zkSync Era</a></li>
+                            <li><a class="dropdown-item" href="#">Other networks...</a></li>
+                        </ul>
+                    </div>
+                    <div class="swap-form">
+                        <div class="mb-3">
+                            <label for="swapFrom" class="form-label">Swap from</label>
+                            <div class="input-group">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="tokenDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                  ETH
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="tokenDropdown">
+                                  <li><a class="dropdown-item" href="#">ETH</a></li>
+                                  <li><a class="dropdown-item" href="#">DAI</a></li>
+                                  <li><a class="dropdown-item" href="#">USDC</a></li>
+                                  <li><a class="dropdown-item" href="#">USDT</a></li>
+                                  <li><a class="dropdown-item" href="#">WBTC</a></li>
+                                  <li><a class="dropdown-item" href="#">Other tokens...</a></li>
+                                </ul>
+                                <input type="text" class="form-control" id="swapFrom" placeholder="0">
+                              </div>
+                            <small id="ethBalance" class="form-text text-muted">Connect to check any ETH available to swap</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="swapTo" class="form-label">Swap to</label>
+                            <div class="input-group">
+                                <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" id="swapToDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Select a token
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="swapToDropdown">
+                                  <li><a class="dropdown-item" href="#">DAI</a></li>
+                                  <li><a class="dropdown-item" href="#">USDC</a></li>
+                                  <li><a class="dropdown-item" href="#">USDT</a></li>
+                                  <li><a class="dropdown-item" href="#">WBTC</a></li>
+                                  <li><a class="dropdown-item" href="#">Other tokens...</a></li>
+                                </ul>
+                              </div>
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-link text-white w-100" type="button" data-bs-toggle="collapse" data-bs-target="#advancedOptions" aria-expanded="false" aria-controls="advancedOptions">
+                                Advanced Options
+                            </button>
+                            <div class="collapse" id="advancedOptions">
+                                <div class="card card-body bg-dark">
+                                    Slippage Tolerance 2% 3% custom
+                                </div>
+                            </div>
+                        </div>
+                        <button id="connectWallet" class="btn btn-primary w-100">Connect wallet</button>
+                    </div>
+                    <div class="terms-of-service">
+                        <a href="#" class="text-muted">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Search
+        const tokens = [
+            { symbol: 'ETH', name: 'Ethereum' },
+            { symbol: 'BTC', name: 'Bitcoin' },
+            { symbol: 'USDT', name: 'Tether' },
+            { symbol: 'USDC', name: 'USD Coin' },
+            { symbol: 'BNB', name: 'Binance Coin' },
+            { symbol: 'XRP', name: 'Ripple' },
+            { symbol: 'ADA', name: 'Cardano' },
+            { symbol: 'SOL', name: 'Solana' },
+            { symbol: 'DOT', name: 'Polkadot' },
+            { symbol: 'DOGE', name: 'Dogecoin' }
+        ];
+
+        const tokenSearch = document.getElementById('tokenSearch');
+        const tokenSearchResults = document.getElementById('tokenSearchResults');
+
+        tokenSearch.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const filteredTokens = tokens.filter(token => 
+                token.symbol.toLowerCase().startsWith(searchTerm) || 
+                token.name.toLowerCase().includes(searchTerm)
+            );
+
+            if (filteredTokens.length > 0 && searchTerm.length > 0) {
+                tokenSearchResults.innerHTML = filteredTokens.map(token => 
+                    `<div class="token-search-item" data-symbol="${token.symbol}">${token.symbol} - ${token.name}</div>`
+                ).join('');
+                tokenSearchResults.style.display = 'block';
+            } else {
+                tokenSearchResults.style.display = 'none';
+            }
+        });
+
+        tokenSearchResults.addEventListener('click', function(e) {
+            if (e.target.classList.contains('token-search-item')) {
+                const selectedSymbol = e.target.dataset.symbol;
+                tokenSearch.value = selectedSymbol;
+                this.style.display = 'none';
+            }
+        });
+
+        // Hide search results when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!tokenSearch.contains(e.target) && !tokenSearchResults.contains(e.target)) {
+                tokenSearchResults.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+<style>
+body {
+    background-color: #1c1c1c;
+    color: #ffffff;
+}
+
+.wallet-dropdown {
+    position: relative;
+}
+.wallet-dropdown .dropdown-menu {
+    width: 300px !important;
+    max-width: 100%;
+    position: absolute;
+    right: 0;
+    left: auto;
+}
+.wallet-dropdown .dropdown-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.collapsible-container {
+    position: relative;
+}
+
+.collapsible-content {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 300px; /* Fixed width */
+    z-index: 1000;
+}
+
+.collapse:not(.show) {
+    display: none !important;
+}
+
+.sidebar {
+    background-color: #2c2c2c;
+    height: 100vh;
+    padding: 20px;
+    position: relative;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.metamask-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.nav-link {
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+}
+
+.nav-link i {
+    margin-right: 10px;
+}
+
+.nav-link.active {
+    background-color: #3a3a3a;
+}
+
+.main-content {
+    padding: 20px;
+    position: relative;
+}
+
+.submenu {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #2c2c2c;
+    width: 200px;
+    padding: 10px;
+    display: none;
+    z-index: 1000;
+}
+
+.submenu-active {
+    display: block;
+}
+
+.submenu-item {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.submenu-item:hover {
+    background-color: #3a3a3a;
+}
+
+.icon {
+    margin-right: 10px;
+    font-size: 18px;
+    width: 20px;
+    text-align: center;
+}
+
+.swap-container {
+    background-color: #2c2c2c;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.network-selector {
+    margin-bottom: 20px;
+}
+
+.swap-form .form-control,
+.swap-form .btn,
+.network-selector .btn {
+    background-color: #3a3a3a;
+    border-color: #4a4a4a;
+    color: #ffffff;
+}
+
+.swap-form .form-control::placeholder {
+    color: #8a8a8a;
+}
+
+.terms-of-service a.text-muted {
+    color: skyblue !important;
+}
+
+.terms-of-service {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.token-search-container {
+    position: relative;
+}
+.token-search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #2c3e50;
+    border: 1px solid #34495e;
+    border-radius: 0.25rem;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+.token-search-item {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+.token-search-item:hover {
+    background-color: #34495e;
+}
+
+.network-icon,
+.token-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.navbar-brand {
+    color: white !important;
+}
+
+#connectWallet,
+#getQuotes {
+    background-color: #037dd6;
+    border-color: #037dd6;
+}
+
+#connectWallet:hover,
+#getQuotes:hover {
+    background-color: #0361a8;
+    border-color: #0361a8;
+}
+#ethBalance {
+    color: white !important;
+}
+</style>
+
+</html>
+

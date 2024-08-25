@@ -1,0 +1,12 @@
+After local experiments, I found that if you open the web page directly in file format instead of running it on localhost, it may cause a link error on MetaMask.
+
+Please open the folder in the command line and run:
+
+python -m http.server 8000
+
+to start the program
+
+
+G2303185D
+Wang Xiao
+https://github.com/Amanda-WangXiao/Swap-Page-Demo.git
